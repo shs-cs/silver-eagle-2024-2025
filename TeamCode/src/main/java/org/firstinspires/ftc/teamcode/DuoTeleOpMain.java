@@ -16,9 +16,9 @@ public class DuoTeleOpMain extends OpMode {
     public double TwistyTurnySidePosition = 0.39;
     public double TwistyTurnyStraight = 0.75;
     public double TwistyTurnyFlipPosition = 0.08; //0.675
-    public double ClawOpenNormalPos =  0.15;
-    public double ClawOpenWidePos = 0.05;
-    public double ClawNomNom = 0.32;
+    public double ClawOpenNormalPos =  0.2;
+    public double ClawOpenWidePos = 0.1;
+    public double ClawNomNom = 0.31;
 
     public double WristRestPosition = 0.16;
     public double WristGrabbingPosition = 0.016;
@@ -116,6 +116,7 @@ public class DuoTeleOpMain extends OpMode {
         telemetry.addData("LeftArm Position", LeftArmMotor.getCurrentPosition());
         telemetry.addData("Twisty Turny Position", TwistyTurnyServo.getPosition());
         //telemetry.addData("Battery Power:", BatteryLevel);
+        telemetry.update();
 
     }
 
@@ -380,6 +381,7 @@ public class DuoTeleOpMain extends OpMode {
         boolean armHigh = armPosition >=  ArmHighThreshold; //&& armPosition >= lowBound
         boolean armMidLow = armPosition <=  ArmMidLowThreshold;
         boolean slideAtMax = slidePosition >= slideMax; //&& slidePosition <= 0
+        telemetry.addData("LeftArmPosition: ", LeftArmMotor.getCurrentPosition());
 
 
             if (gamepad2.left_stick_y < -0.1)

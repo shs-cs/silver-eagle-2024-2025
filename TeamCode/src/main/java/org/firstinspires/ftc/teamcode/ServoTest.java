@@ -1,64 +1,53 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
+@Config
 @TeleOp(name = "ServoTest", group = "TeleOp")
 public class ServoTest extends OpMode
 {
+    public static class Params {
+        public double rightGripperPosition = 0.0;
+        public double leftGripperPosition = 0.0;
+        public double wristPosition = 0.0;
+        public double twistyPosition = 0.0;
+    }
+    public static Params PARAMS = new Params();
 
-    private Servo LeftGripperServo;
-    private Servo RightGripperServo;
-    private Servo WristServo;
-    private Servo TwistyTurnyServo;
+    private Servo twistyTurnyServo;
+    private Servo rightGripperServo;
+    private Servo leftGripperServo;
+    private Servo wristServo;
+
 
 
     @Override
     public void init() {
-        LeftGripperServo = hardwareMap.get(Servo.class, "LeftGripperServo");
-        TwistyTurnyServo = hardwareMap.get(Servo.class, "TwistyTurnyServo");
-        //RightGripperServo.setDirection(Servo.Direction.REVERSE); // Reverse the left gripper
-        WristServo = hardwareMap.get(Servo.class, "WristServo");
-        RightGripperServo = hardwareMap.get(Servo.class, "RightGripperServo");
-        RightGripperServo.setDirection(Servo.Direction.REVERSE);// Default forward, so no need to set it
-        // WristServo.setDirection(Servo.Direction.REVERSE);
-
+        twistyTurnyServo = hardwareMap.get(Servo.class, "TwistyTurnyServo");
+        wristServo = hardwareMap.get(Servo.class, "WristServo");
+        leftGripperServo = hardwareMap.get(Servo.class, "LeftGripperServo");
+        rightGripperServo = hardwareMap.get(Servo.class, "RightGripperServo");
+        rightGripperServo.setDirection(Servo.Direction.REVERSE);
+        wristServo.setDirection(Servo.Direction.REVERSE);
     }
 
     @Override
     public void loop() {
-        ServoTest();
-    }
-
-    public void ServoTest() {
-
-
-
         if (gamepad1.a) {
-            TwistyTurnyServo.setPosition(0.0);
+            twistyTurnyServo.setPosition(PARAMS.twistyPosition);
         }
-
         if (gamepad1.b) {
-            WristServo.setPosition(0.0);
+            wristServo.setPosition(PARAMS.wristPosition);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // Update telemetry to see the position values
-        telemetry.update();
+        if (gamepad1.x) {
+            leftGripperServo.setPosition(PARAMS.leftGripperPosition);
+        }
+        if (gamepad1.y) {
+            rightGripperServo.setPosition(PARAMS.rightGripperPosition);
+        }
     }
 }

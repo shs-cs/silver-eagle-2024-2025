@@ -116,7 +116,6 @@ public class ScoreSpecimenRight extends LinearOpMode {
     {
         stopMotors();
         sleep(MilliSeconds);
-        stopMotors();
     }
 
     public void StrafeRightTimer(int timeoutMillis, int turn)

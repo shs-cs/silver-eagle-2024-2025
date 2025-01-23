@@ -21,9 +21,6 @@ public class Arm {
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm.setDirection(DcMotorSimple.Direction.FORWARD);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
     }
     private static final int ticks = 537;
     private static final double gear_ratio = 1.0;
@@ -42,13 +39,14 @@ public class Arm {
                 initialized = true;
             }
 
-            int targetPosition = (int) (-80 * countsPerInch);
-            if (arm.getCurrentPosition() <= -80 * countsPerInch) {
+            int targetPosition = (int) (-5 * countsPerInch);
+            if (arm.getCurrentPosition() <= -5 * countsPerInch) {
                 arm.setPower(0);
                 return false;
             } else {
                 if (!arm.isBusy()) {
                     arm.setTargetPosition(targetPosition);
+                    arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 }
                 return true;
             }
