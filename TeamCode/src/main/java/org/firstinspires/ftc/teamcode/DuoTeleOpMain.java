@@ -62,8 +62,8 @@ public class DuoTeleOpMain extends OpMode {
         RightGripperServo.setDirection(Servo.Direction.REVERSE);
         WristServo.setDirection(Servo.Direction.REVERSE);
 
-        LeftArmMotor = hardwareMap.dcMotor.get("LeftArmMotor");
-        RightArmMotor = hardwareMap.dcMotor.get("RightArmMotor");
+        LeftArmMotor = hardwareMap.dcMotor.get("armMotor");
+        RightArmMotor = hardwareMap.dcMotor.get("junk");
         LeftArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RightArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
