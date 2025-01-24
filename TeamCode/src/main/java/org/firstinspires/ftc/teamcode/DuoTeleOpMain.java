@@ -16,21 +16,26 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 public class DuoTeleOpMain extends OpMode {
     //setting up motors and servos for use + Setting up Positions
    //public double BatteryLevel = hardwareMap.voltageSensor.iterator().next().getVoltage();
-    public double TwistyTurnySidePosition = 0.39;
-    public double TwistyTurnyStraight = 0.75;
-    public double TwistyTurnyFlipPosition = 0.08; //0.675
-    public double ClawOpenNormalPos =  0.2;
-    public double ClawOpenWidePos = 0.1;
-    public double ClawNomNom = 0.31;
 
-    public double WristRestPosition = 0.16;
-    public double WristGrabbingPosition = 0.016;
-    public double WristSlammaJammaPosition = 0.17;
+    public static class Params {
+        public double TwistyTurnySidePosition = 0.39;
+        public double TwistyTurnyStraight = 0.61;
+        public double TwistyTurnyFlipPosition = 0.08; //0.675
+        public double ClawOpenNormalPos =  0.2;
+        public double ClawOpenWidePos = 0.1;
+        public double ClawNomNom = 0.31;
 
-    public double WristSpecimenPosition = 0.064;
+        public double WristRestPosition = 0.16;
+        public double WristGrabbingPosition = 0;
+        public double WristSlammaJammaPosition = 0.17;
 
-    public double WristBackScoringPosition = 0.097;
-    public double WristHighBasketPosition = 0.064;
+        public double WristSpecimenPosition = 0.064;
+
+        public double WristBackScoringPosition = 0.097;
+        public double WristHighBasketPosition = 0.064;
+    }
+    public static Params PARAMS = new Params();
+
     private DcMotor LeftFront;
     private DcMotor RightFront;
     private DcMotor LeftRear;
@@ -240,16 +245,16 @@ public class DuoTeleOpMain extends OpMode {
 
     public void ServoGoVroom() {
         if (gamepad2.left_bumper) {
-            RightGripperServo.setPosition(ClawOpenNormalPos); // Open Right Gripper
-            LeftGripperServo.setPosition(ClawOpenNormalPos); // Open Left Gripper
+            RightGripperServo.setPosition(PARAMS.ClawOpenNormalPos); // Open Right Gripper
+            LeftGripperServo.setPosition(PARAMS.ClawOpenNormalPos); // Open Left Gripper
             //telemetry.addData("Right Gripper Position:", RightGripperServo.getPosition());
             //telemetry.addData("Left Gripper Position:", LeftGripperServo.getPosition());
             //telemetry.update();
         }
         if (gamepad2.right_bumper)
         {
-            LeftGripperServo.setPosition(ClawNomNom); // Close Left Gripper
-            RightGripperServo.setPosition(ClawNomNom); // Close Right Gripper
+            LeftGripperServo.setPosition(PARAMS.ClawNomNom); // Close Left Gripper
+            RightGripperServo.setPosition(PARAMS.ClawNomNom); // Close Right Gripper
             //telemetry.addData("Right Gripper Position:", RightGripperServo.getPosition());
             //telemetry.addData("Left Gripper Position:", LeftGripperServo.getPosition());
             //telemetry.update();
@@ -257,14 +262,14 @@ public class DuoTeleOpMain extends OpMode {
 
         if(gamepad2.dpad_left)
         {
-            TwistyTurnyServo.setPosition(TwistyTurnySidePosition);
+            TwistyTurnyServo.setPosition(PARAMS.TwistyTurnySidePosition);
             //telemetry.addData("TwistyTurnyPosition:", TwistyTurnyServo.getPosition());
             //telemetry.update();
         }
 
         if(gamepad2.dpad_right)
         {
-            TwistyTurnyServo.setPosition(TwistyTurnyStraight);
+            TwistyTurnyServo.setPosition(PARAMS.TwistyTurnyStraight);
             //telemetry.addData("TwistyTurnyPosition:", TwistyTurnyServo.getPosition());
             //telemetry.update();
         }
@@ -272,7 +277,7 @@ public class DuoTeleOpMain extends OpMode {
 
         if(gamepad1.a)
         {
-            TwistyTurnyServo.setPosition(TwistyTurnyStraight);
+            TwistyTurnyServo.setPosition(PARAMS.TwistyTurnyStraight);
             //telemetry.addData("TwistyTurnyPosition:", TwistyTurnyServo.getPosition());
            // telemetry.update();
         }
@@ -359,44 +364,44 @@ public class DuoTeleOpMain extends OpMode {
 
         if(gamepad1.b)
         {
-            TwistyTurnyServo.setPosition(TwistyTurnyFlipPosition);
+            TwistyTurnyServo.setPosition(PARAMS.TwistyTurnyFlipPosition);
             //telemetry.addData("TwistyTurnyPosition:", TwistyTurnyServo.getPosition());
             //telemetry.update();
         }
         if(gamepad2.dpad_up)
         {
-            TwistyTurnyServo.setPosition(TwistyTurnyFlipPosition);
+            TwistyTurnyServo.setPosition(PARAMS.TwistyTurnyFlipPosition);
             //telemetry.addData("TwistyTurnyPosition:", TwistyTurnyServo.getPosition());
             //telemetry.update();
         }
         if (gamepad2.x)
         {
-            WristServo.setPosition(WristGrabbingPosition);
+            WristServo.setPosition(PARAMS.WristGrabbingPosition);
             //telemetry.addData("Wrist Servo Position:", WristServo.getPosition());
             //telemetry.update();
         }
         if (gamepad2.y)
         {
-            WristServo.setPosition(WristHighBasketPosition);
+            WristServo.setPosition(PARAMS.WristHighBasketPosition);
             //telemetry.addData("Wrist Servo Position:", WristServo.getPosition());
             //telemetry.update();
         }
         if (gamepad2.b && gamepad2.dpad_down)
         {
-            WristServo.setPosition(WristRestPosition);
+            WristServo.setPosition(PARAMS.WristRestPosition);
             //telemetry.addData("Wrist Servo Position:", WristServo.getPosition());
             //telemetry.update();
         }
         if (gamepad2.a)
         {
-            WristServo.setPosition(WristBackScoringPosition);
+            WristServo.setPosition(PARAMS.WristBackScoringPosition);
             //telemetry.addData("Wrist Servo Position:", WristServo.getPosition());
             //telemetry.update();
         }
         if (gamepad2.left_trigger > 0.5)
         {
-           LeftGripperServo.setPosition(ClawOpenWidePos);
-           RightGripperServo.setPosition(ClawOpenWidePos);
+           LeftGripperServo.setPosition(PARAMS.ClawOpenWidePos);
+           RightGripperServo.setPosition(PARAMS.ClawOpenWidePos);
            //telemetry.addData("Right Gripper Position:", RightGripperServo.getPosition());
            //telemetry.addData("Left Gripper Position:", LeftGripperServo.getPosition());
            //telemetry.update();
@@ -404,7 +409,7 @@ public class DuoTeleOpMain extends OpMode {
         if (gamepad2.right_trigger > 0.5)
         {
 
-            WristServo.setPosition(WristSlammaJammaPosition);
+            WristServo.setPosition(PARAMS.WristSlammaJammaPosition);
 
         }
     }
