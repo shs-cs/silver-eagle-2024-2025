@@ -23,6 +23,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.Arm;
+import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 
 @Autonomous(name = "Road Runner Auto", group = "Autonomous")
 public final class RoadRunnerAuto extends LinearOpMode {
@@ -31,6 +32,7 @@ public final class RoadRunnerAuto extends LinearOpMode {
         Pose2d beginPose = new Pose2d(0, 72, 0);
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
         Arm arm = new Arm(hardwareMap);
+        Claw claw = new Claw(hardwareMap);
 
         waitForStart();
 
@@ -41,7 +43,8 @@ public final class RoadRunnerAuto extends LinearOpMode {
 
         Actions.runBlocking(
                 new SequentialAction(
-                        arm.armUp()
+                        arm.armUp(),
+                        claw.openClaw()
                 )
         );
 
