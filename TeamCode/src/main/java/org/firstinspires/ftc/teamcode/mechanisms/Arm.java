@@ -22,15 +22,13 @@ public class Arm {
         arm.setDirection(DcMotorSimple.Direction.FORWARD);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-    private static final int ticks = 537;
-    private static final double gear_ratio = 1.0;
-    private static final double wheelDiameter = 4.0;
-    private static final double countsPerInch = (ticks * gear_ratio) / (Math.PI * wheelDiameter);
+    private static final int highBarPosition = -3422;
     public class ArmUp implements Action {
-        // checks if the lift motor has been powered on
         private boolean initialized = false;
 
         // actions are formatted via telemetry packets as below
+        // @return true means function should rerun
+        // @return false means action is complete
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
@@ -39,13 +37,12 @@ public class Arm {
                 initialized = true;
             }
 
-            int targetPosition = (int) (-5 * countsPerInch);
-            if (arm.getCurrentPosition() <= -5 * countsPerInch) {
+            if (arm.getCurrentPosition() <= highBarPosition) {
                 arm.setPower(0);
                 return false;
             } else {
                 if (!arm.isBusy()) {
-                    arm.setTargetPosition(targetPosition);
+                    arm.setTargetPosition(highBarPosition);
                     arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 }
                 return true;
