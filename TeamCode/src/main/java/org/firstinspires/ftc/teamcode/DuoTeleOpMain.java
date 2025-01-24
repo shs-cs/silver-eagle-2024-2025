@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -9,6 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+
 @TeleOp(name = "DuoTeleOpMain", group = "TeleOp")
 public class DuoTeleOpMain extends OpMode {
     //setting up motors and servos for use + Setting up Positions
@@ -40,6 +43,13 @@ public class DuoTeleOpMain extends OpMode {
     private Servo WristServo;
     private Servo TwistyTurnyServo;
 
+    private RevBlinkinLedDriver blinkinLedDriver;
+    private RevBlinkinLedDriver.BlinkinPattern pattern = RevBlinkinLedDriver.BlinkinPattern.WHITE;
+    private ColorSensor colorSensor;
+    private boolean isBlue = false;
+    private boolean isRed = false;
+    private boolean isYellow = false;
+
     private static final int ticks = 537;
     private static final double gear_ratio = 1.0;
     private static final double wheelDiameter = 4.0; // Wheel diameter in inches
@@ -49,6 +59,11 @@ public class DuoTeleOpMain extends OpMode {
 
     @Override
     public void init() {
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+        blinkinLedDriver.setPattern(pattern);
+
+        colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
+
         // Initializing hardware to driver hub
         LeftFront = hardwareMap.dcMotor.get("leftFront");
         RightFront = hardwareMap.dcMotor.get("rightFront");
@@ -108,6 +123,7 @@ public class DuoTeleOpMain extends OpMode {
         ArmGoVroom();
         ViperSlideVroom();
         ServoGoVroom();
+        handleLEDs();
 
         telemetry.addData("ViperMotor Power", ViperMotor.getPower());
         telemetry.addData("ViperMotor Position", ViperMotor.getCurrentPosition());
@@ -120,6 +136,27 @@ public class DuoTeleOpMain extends OpMode {
 
     }
 
+    public void handleLEDs() {
+        int red = colorSensor.red();
+        int green = colorSensor.green();
+        int blue = colorSensor.blue();
+
+        isBlue = blue > red && blue > green && blue > 100;
+        isRed = red > blue && red > green && red > 100;
+        isYellow = red > blue && green > blue && red > 100 && green > 100;
+
+        if (isBlue) {
+            pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+        } else if (isRed) {
+            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+        } else if (isYellow) {
+            pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+        } else {
+            pattern = RevBlinkinLedDriver.BlinkinPattern.WHITE;
+        }
+
+        blinkinLedDriver.setPattern(pattern);
+    }
     public void handleDriveTrain()
     {
         double leftStickY = gamepad1.left_stick_y; // Y axis for forward/backward
@@ -382,7 +419,6 @@ public class DuoTeleOpMain extends OpMode {
         boolean armMidLow = armPosition <=  ArmMidLowThreshold;
         boolean slideAtMax = slidePosition >= slideMax; //&& slidePosition <= 0
         telemetry.addData("LeftArmPosition: ", LeftArmMotor.getCurrentPosition());
-
 
             if (gamepad2.left_stick_y < -0.1)
             {

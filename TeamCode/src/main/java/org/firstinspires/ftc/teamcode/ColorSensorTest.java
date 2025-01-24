@@ -41,6 +41,8 @@ public class ColorSensorTest extends OpMode {
         isYellow = red > blue && green > blue && red > 100 && green > 100;
 
 
+
+
         telemetry.addData("Red Value:", red);
         telemetry.addData("Green Value:", green);
         telemetry.addData("Blue Value:", blue);
