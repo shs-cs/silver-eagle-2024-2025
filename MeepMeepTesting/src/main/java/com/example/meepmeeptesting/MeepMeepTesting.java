@@ -20,13 +20,16 @@ public class MeepMeepTesting {
                 .strafeTo(new Vector2d(0, 55))
                 .waitSeconds(1)
                 .setTangent(Math.PI)
-                .splineToLinearHeading(new Pose2d(-44, 0, Math.PI / 2), -Math.PI / 2)
+                .splineToLinearHeading(new Pose2d(-44, 0, Math.PI / 2), -Math.PI / 1.65)
                 .strafeTo(new Vector2d(-44, 65))
-                                //.strafeTo()
-//                .lineToY(35.0)
-//                .lineToYLinearHeading(55.0, Math.PI/2)
-//                .waitSeconds(0.5)
-//                .splineToLinearHeading(new Pose2d(-44, 0, -Math.PI/2), Math.PI/2)
+                .strafeTo(new Vector2d(-49.2, 0))
+                .strafeTo(new Vector2d(-49.2, 65))
+
+
+
+
+
+
                   .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)

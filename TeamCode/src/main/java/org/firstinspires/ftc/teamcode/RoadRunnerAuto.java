@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -36,22 +37,32 @@ public final class RoadRunnerAuto extends LinearOpMode {
 
         waitForStart();
 
-        Actions.runBlocking(
-                drive.actionBuilder(beginPose)
-                        .strafeTo(new Vector2d(0, 35))
-                        .strafeTo(new Vector2d(0, 55))
-                        .waitSeconds(1)
-                        .setTangent(Math.PI)
-                        .splineToLinearHeading(new Pose2d(-44, 0, Math.PI / 2), -Math.PI / 2)
-                        .strafeTo(new Vector2d(-44, 65))
-                        .build());
+        TrajectoryActionBuilder moveForward = drive.actionBuilder(beginPose)
+                .strafeTo(new Vector2d(0, 42));
+
+        TrajectoryActionBuilder moveToBlocks = moveForward.endTrajectory().fresh()
+                .strafeTo(new Vector2d(0, 50))
+                .waitSeconds(1)
+                .setTangent(Math.PI)
+                .splineToLinearHeading(new Pose2d(-44, 0, Math.PI / 2), -Math.PI / 1.65);
+
 
 //        Actions.runBlocking(
-//                new SequentialAction(
-//                        arm.armUp(),
-//                        claw.openClaw()
-//                )
-//        );
+//                drive.actionBuilder(beginPose)
+//                        .strafeTo(new Vector2d(-44, 65))
+//                        .strafeTo(new Vector2d(-49.2, 0))
+//                        .strafeTo(new Vector2d(-49.2, 65))
+//                        .build());
+
+        Actions.runBlocking(
+                new SequentialAction(
+                        moveForward.build(),
+                        arm.armUp(),
+                        claw.openClaw(),
+                        moveToBlocks.build()
+
+                )
+        );
 
     }
 }

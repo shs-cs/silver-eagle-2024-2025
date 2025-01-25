@@ -32,7 +32,7 @@ public class DuoTeleOpMain extends OpMode {
         public double WristSpecimenPosition = 0.37;
 
         public double WristBackScoringPosition = 0.097;
-        public double WristHighBasketPosition = 0.07;
+        public double WristHighBasketPosition = 0.33;
 
     //public static Params PARAMS = new Params();
 
@@ -396,7 +396,7 @@ public class DuoTeleOpMain extends OpMode {
         }
         if (gamepad2.a)
         {
-            //WristServo.setPosition(WristBackScoringPosition);
+            WristServo.setPosition(WristHighBasketPosition);
             //telemetry.addData("Wrist Servo Position:", WristServo.getPosition());
             //telemetry.update();
         }

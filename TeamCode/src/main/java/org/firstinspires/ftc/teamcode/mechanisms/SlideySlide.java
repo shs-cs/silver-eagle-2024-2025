@@ -18,11 +18,11 @@ public class SlideySlide {
         ViperMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         ViperMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-    private static final int highBarPosition = -40;
+    private static final int highBarPos = -40;
 
     private static final int specimenPos = -20;
 
-    private static final int highBarPos = -30;
+    private static final int highBasketPos = -1931;
 
     private static final int resetPos = 0;
     public class SlideHighBasket implements Action
@@ -40,12 +40,12 @@ public class SlideySlide {
                 initialized = true;
             }
 
-            if (ViperMotor.getCurrentPosition() <= highBarPosition) {
+            if (ViperMotor.getCurrentPosition() <= highBasketPos) {
                 ViperMotor.setPower(0);
                 return false;
             } else {
                 if (!ViperMotor.isBusy()) {
-                    ViperMotor.setTargetPosition(highBarPosition);
+                    ViperMotor.setTargetPosition(highBasketPos);
                     ViperMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 }
                 return true;
