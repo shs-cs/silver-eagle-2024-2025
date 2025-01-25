@@ -49,5 +49,14 @@ public class ServoTest extends OpMode
         if (gamepad1.y) {
             rightGripperServo.setPosition(PARAMS.rightGripperPosition);
         }
+
+        if (gamepad1.dpad_up) {
+            wristServo.setDirection(Servo.Direction.REVERSE);
+            wristServo.setPosition(PARAMS.twistyPosition);
+            wristServo.setDirection(Servo.Direction.FORWARD);
+        }
+
+
+
     }
 }
