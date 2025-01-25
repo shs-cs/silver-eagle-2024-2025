@@ -38,11 +38,12 @@ public final class RoadRunnerAuto extends LinearOpMode {
 
         Actions.runBlocking(
                 drive.actionBuilder(beginPose)
-                        .lineToY(35.0)
-                        .lineToY(44.0)
-                        .waitSeconds(0.5)
-                        .setTangent(0)
-                        .splineTo(new Vector2d(-44, 0), Math.PI)
+                        .strafeTo(new Vector2d(0, 35))
+                        .strafeTo(new Vector2d(0, 55))
+                        .waitSeconds(1)
+                        .setTangent(Math.PI)
+                        .splineToLinearHeading(new Pose2d(-44, 0, Math.PI / 2), -Math.PI / 2)
+                        .strafeTo(new Vector2d(-44, 65))
                         .build());
 
 //        Actions.runBlocking(
