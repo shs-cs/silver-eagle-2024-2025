@@ -29,7 +29,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 public final class RoadRunnerAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d beginPose = new Pose2d(0, 72, 0);
+        Pose2d beginPose = new Pose2d(0, 72, -Math.PI / 2);
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
         Arm arm = new Arm(hardwareMap);
         Claw claw = new Claw(hardwareMap);
@@ -38,15 +38,19 @@ public final class RoadRunnerAuto extends LinearOpMode {
 
         Actions.runBlocking(
                 drive.actionBuilder(beginPose)
-                        .lineToX(27.0)
+                        .lineToY(35.0)
+                        .lineToY(44.0)
+                        .waitSeconds(0.5)
+                        .setTangent(0)
+                        .splineTo(new Vector2d(-44, 0), Math.PI)
                         .build());
 
-        Actions.runBlocking(
-                new SequentialAction(
-                        arm.armUp(),
-                        claw.openClaw()
-                )
-        );
+//        Actions.runBlocking(
+//                new SequentialAction(
+//                        arm.armUp(),
+//                        claw.openClaw()
+//                )
+//        );
 
     }
 }
