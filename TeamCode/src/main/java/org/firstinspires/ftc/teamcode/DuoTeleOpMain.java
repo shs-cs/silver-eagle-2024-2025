@@ -197,7 +197,7 @@ public class DuoTeleOpMain extends OpMode {
     }
 
     public int ArmMidLowThreshold = 1871;
-    public int ArmHighThreshold = -3060;
+    public int ArmHighThreshold = -4000;
     public int slideMax = -1528;
 
 

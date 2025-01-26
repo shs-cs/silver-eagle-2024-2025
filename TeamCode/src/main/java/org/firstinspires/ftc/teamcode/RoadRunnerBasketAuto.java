@@ -26,15 +26,17 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.Arm;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
+import org.firstinspires.ftc.teamcode.mechanisms.SlideySlide;
 
-@Autonomous(name = "RoadRunner Specimen Auto", group = "Autonomous")
-public final class RoadRunnerAuto extends LinearOpMode {
+@Autonomous(name = "RoadRunner Basket Auto", group = "Autonomous")
+public final class RoadRunnerBasketAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d beginPose = new Pose2d(0, 72, -Math.PI / 2);
+        Pose2d beginPose = new Pose2d(50, 72, 0);
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
         Arm arm = new Arm(hardwareMap);
         Claw claw = new Claw(hardwareMap);
+        SlideySlide slide = new SlideySlide(hardwareMap);
         RevBlinkinLedDriver blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");;
         blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
 
@@ -47,9 +49,9 @@ public final class RoadRunnerAuto extends LinearOpMode {
         if (isStopRequested()) return;
 
         // Move forward to submersible
-        TrajectoryActionBuilder moveForward = drive.actionBuilder(beginPose)
-                .waitSeconds(1)
-                .strafeTo(new Vector2d(0, 42));
+        TrajectoryActionBuilder moveAndFaceBasket = drive.actionBuilder(beginPose)
+                .strafeTo(new Vector2d(50, 53))
+                .turnTo(Math.PI / 4);
 
         // Move away from submersible
         // push 3 samples on field into observation zone
@@ -60,20 +62,17 @@ public final class RoadRunnerAuto extends LinearOpMode {
                 .strafeTo(new Vector2d(-50, 14))
                 .strafeTo(new Vector2d(-50, 64))
                 .strafeTo(new Vector2d(-50, 14))
-                .strafeTo(new Vector2d(-53, 14))
-                .strafeTo(new Vector2d(-53, 64))
+                .strafeTo(new Vector2d(-55, 14))
+                .strafeTo(new Vector2d(-55, 64))
                 .strafeTo(new Vector2d(-61, 14))
                 .strafeTo(new Vector2d(-61, 64));
 
         Actions.runBlocking(
                 new SequentialAction(
-                        arm.armUp(),
-                        claw.wristSpecimen(),
-                        moveForward.build(),
-                        claw.openClaw(),
-                        moveBack.build(),
-                        claw.homePosition(),
-                        arm.armDown()
+                        moveAndFaceBasket.build(),
+                        arm.armUpBasket(),
+                        slide.slideHighBasket(),
+                        claw.openClaw()
                 )
         );
     }

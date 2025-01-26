@@ -51,6 +51,54 @@ public class Arm {
     public Action armUp() {
         return new ArmUp();
     }
+
+    public class ArmDown implements Action {
+        // actions are formatted via telemetry packets as below
+        // @return true means function should rerun
+        // @return false means action is complete
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (arm.getCurrentPosition() == 0) {
+                arm.setPower(0.0);
+                return false;
+            } else {
+                arm.setTargetPosition(0);
+                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                return true;
+            }
+        }
+    }
+    public Action armDown() {
+        return new ArmDown();
+    }
+
+    public class ArmUpBasket implements Action {
+        private boolean initialized = false;
+
+        // actions are formatted via telemetry packets as below
+        // @return true means function should rerun
+        // @return false means action is complete
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            // powers on motor, if it is not on
+            if (!initialized) {
+                arm.setPower(0.8);
+                initialized = true;
+            }
+
+            if (arm.getCurrentPosition() <= highBasketPosition) {
+                arm.setPower(0);
+                return false;
+            } else {
+                arm.setTargetPosition(highBasketPosition);
+                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                return true;
+            }
+        }
+    }
+    public Action armUpBasket() {
+        return new ArmUp();
+    }
 }
 
 
