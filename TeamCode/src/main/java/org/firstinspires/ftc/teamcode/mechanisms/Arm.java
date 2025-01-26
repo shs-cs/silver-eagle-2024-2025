@@ -97,7 +97,7 @@ public class Arm {
         }
     }
     public Action armUpBasket() {
-        return new ArmUp();
+        return new ArmUpBasket();
     }
 }
 
