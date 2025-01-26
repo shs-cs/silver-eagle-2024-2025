@@ -21,7 +21,7 @@ public class Arm {
         arm.setDirection(DcMotorSimple.Direction.FORWARD);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-    private static final int highBarPosition = -2860;
+    private static final int highBarPosition = -2900;
     private static final int highBasketPosition = -4231;
 
     public class ArmUp implements Action {
@@ -42,10 +42,8 @@ public class Arm {
                 arm.setPower(0);
                 return false;
             } else {
-                if (!arm.isBusy()) {
                     arm.setTargetPosition(highBarPosition);
                     arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                }
                 return true;
             }
         }

@@ -150,6 +150,11 @@ public class DuoTeleOpMain extends OpMode {
         isRed = red > blue && red > green && red > 100;
         isYellow = red > blue && green > blue && red > 100 && green > 100;
 
+        telemetry.addData("red", red);
+        telemetry.addData("blue", blue);
+        telemetry.addData("green", green);
+
+
         if (isBlue) {
             pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
         } else if (isRed) {
@@ -159,6 +164,8 @@ public class DuoTeleOpMain extends OpMode {
         } else {
             pattern = RevBlinkinLedDriver.BlinkinPattern.WHITE;
         }
+
+
 
         blinkinLedDriver.setPattern(pattern);
     }
@@ -170,6 +177,8 @@ public class DuoTeleOpMain extends OpMode {
 
         //Rename Stick variables For better understanding
         double strafePower = leftStickX; // Lateral movement
+//        double forwardPower = leftStickY * 0.8; // Forward/backward movement
+//        double rotationPower = rightStickX * 0.5; // Rotation
         double forwardPower = leftStickY * 0.8; // Forward/backward movement
         double rotationPower = rightStickX * 0.5; // Rotation
 

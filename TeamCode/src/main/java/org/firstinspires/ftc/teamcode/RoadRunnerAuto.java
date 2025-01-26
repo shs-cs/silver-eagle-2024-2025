@@ -35,17 +35,47 @@ public final class RoadRunnerAuto extends LinearOpMode {
         Arm arm = new Arm(hardwareMap);
         Claw claw = new Claw(hardwareMap);
 
+
+        Actions.runBlocking(claw.homePosition());
+
+
         waitForStart();
 
+        if (isStopRequested()) return;
+
         TrajectoryActionBuilder moveForward = drive.actionBuilder(beginPose)
+                .waitSeconds(1)
                 .strafeTo(new Vector2d(0, 42));
 
-        TrajectoryActionBuilder moveToBlocks = moveForward.endTrajectory().fresh()
+        TrajectoryActionBuilder moveBack = drive.actionBuilder(new Pose2d(0, 42, -Math.PI / 2))
                 .strafeTo(new Vector2d(0, 50))
-                .waitSeconds(1)
-                .setTangent(Math.PI)
-                .splineToLinearHeading(new Pose2d(-44, 0, Math.PI / 2), -Math.PI / 1.65);
+                .strafeTo(new Vector2d(-36, 50))
+                .strafeTo(new Vector2d(-36, 14))
+                .strafeTo(new Vector2d(-50, 14))
+                .strafeTo(new Vector2d(-50, 64))
+                .strafeTo(new Vector2d(-50, 14))
+                .strafeTo(new Vector2d(-53, 14))
+                .strafeTo(new Vector2d(-53, 64))
+                .strafeTo(new Vector2d(-57, 14))
+                .strafeTo(new Vector2d(-57, 64))
+                ;
 
+        Actions.runBlocking(
+                new SequentialAction(
+                        arm.armUp(),
+                        claw.wristSpecimen(),
+                        moveForward.build(),
+                        claw.openClaw(),
+                        moveBack.build()
+                )
+        );
+
+
+//        TrajectoryActionBuilder moveToBlocks = moveForward.endTrajectory().fresh()
+//                .strafeTo(new Vector2d(0, 50))
+//                .waitSeconds(1)
+//                .setTangent(Math.PI)
+//                .splineToLinearHeading(new Pose2d(-44, 0, Math.PI / 2), -Math.PI / 1.65);
 
 //        Actions.runBlocking(
 //                drive.actionBuilder(beginPose)
@@ -54,15 +84,7 @@ public final class RoadRunnerAuto extends LinearOpMode {
 //                        .strafeTo(new Vector2d(-49.2, 65))
 //                        .build());
 
-        Actions.runBlocking(
-                new SequentialAction(
-                        moveForward.build(),
-                        arm.armUp(),
-                        claw.openClaw(),
-                        moveToBlocks.build()
 
-                )
-        );
 
     }
 }

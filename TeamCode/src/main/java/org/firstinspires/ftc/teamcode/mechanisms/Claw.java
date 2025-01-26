@@ -18,21 +18,22 @@ public class Claw {
     private Servo WristServo;
     private Servo TwistyTurnyServo;
 
-    public double TwistyTurnySidePosition = 0.39;
-    public double TwistyTurnyStraight = 0.75;
-    public double TwistyTurnyFlipPosition = 0.08; //0.675
+    public double TwistyTurnySidePosition = 0.185;
+    public double TwistyTurnyStraight = 0.53;
+    public double TwistyTurnyFlipPosition = 0.185;
     public double ClawOpenNormalPos =  0.2;
     public double ClawOpenWidePos = 0.1;
     public double ClawNomNom = 0.31;
 
-    public double WristRestPosition = 0.16;
-    public double WristGrabbingPosition = 0.016;
+    public double WristRestPosition = 0.9;
+    public double WristGrabbingPosition = 0;
     public double WristSlammaJammaPosition = 0.17;
 
-    public double WristSpecimenPosition = 0.064;
+    public double WristSpecimenPosition = 0.37;
 
     public double WristBackScoringPosition = 0.097;
-    public double WristHighBasketPosition = 0.064;
+    public double WristHighBasketPosition = 0.33;
+
 
     public Claw(HardwareMap hardwareMap) {
         TwistyTurnyServo = hardwareMap.get(Servo.class, "TwistyTurnyServo");
@@ -47,24 +48,12 @@ public class Claw {
     public class ClawOpen implements Action
     {
 
-        private boolean initialized = false;
-
         @Override
         public boolean run(@NonNull TelemetryPacket packet)
         {
-            if (!initialized) {
                 LeftGripperServo.setPosition(ClawOpenNormalPos);
                 RightGripperServo.setPosition(ClawOpenNormalPos);
-                initialized = true;
-                return true; // call run again
-            } else {
-                if (LeftGripperServo.getPosition() == ClawOpenNormalPos && RightGripperServo.getPosition() == ClawOpenNormalPos) {
-                    return false; // stop call run
-                }
-                return true; // call this function again
-            }
-
-
+                return false; // call run again
         }
 
     }
@@ -192,6 +181,55 @@ public class Claw {
     {
         return new WristBack();
     }
+
+    public class HomePosition implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            WristServo.setPosition(WristRestPosition);
+            TwistyTurnyServo.setPosition(TwistyTurnyStraight);
+            LeftGripperServo.setPosition(ClawNomNom);
+            RightGripperServo.setPosition(ClawNomNom);
+            return false;
+        }
+
+    }
+
+    public Action homePosition() {
+        return new HomePosition();
+    }
+
+
+
+    public class WristSpecimen implements Action {
+
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet)
+        {
+            if (!initialized) {
+                WristServo.setPosition(WristSpecimenPosition);
+
+                initialized = true;
+                return true; // call run again
+            } else {
+                if (WristServo.getPosition() == WristSpecimenPosition) {
+                    return false; // stop call run
+                }
+                return true; // call this function again
+            }
+
+
+        }
+
+    }
+
+    public Action wristSpecimen()
+    {
+        return new WristSpecimen();
+    }
+
 
 
 
