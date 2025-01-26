@@ -50,28 +50,21 @@ public final class RoadRunnerBasketAuto extends LinearOpMode {
 
         // Move forward to submersible
         TrajectoryActionBuilder moveAndFaceBasket = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(50, 53))
+                .strafeTo(new Vector2d(60, 65))
                 .turnTo(Math.PI / 4);
 
         // Move away from submersible
         // push 3 samples on field into observation zone
-        TrajectoryActionBuilder moveBack = drive.actionBuilder(new Pose2d(0, 42, -Math.PI / 2))
-                .strafeTo(new Vector2d(0, 50))
-                .strafeTo(new Vector2d(-36, 50))
-                .strafeTo(new Vector2d(-36, 14))
-                .strafeTo(new Vector2d(-50, 14))
-                .strafeTo(new Vector2d(-50, 64))
-                .strafeTo(new Vector2d(-50, 14))
-                .strafeTo(new Vector2d(-55, 14))
-                .strafeTo(new Vector2d(-55, 64))
-                .strafeTo(new Vector2d(-61, 14))
-                .strafeTo(new Vector2d(-61, 64));
+        TrajectoryActionBuilder moveTowardsBasket = drive.actionBuilder(new Pose2d(55, 53, Math.PI / 4))
+                .strafeTo(new Vector2d(62, 62));
 
         Actions.runBlocking(
                 new SequentialAction(
                         moveAndFaceBasket.build(),
                         arm.armUpBasket(),
+                        claw.wristSpecimen(),
                         slide.slideHighBasket(),
+                        //moveTowardsBasket.build(),
                         claw.openClaw()
                 )
         );

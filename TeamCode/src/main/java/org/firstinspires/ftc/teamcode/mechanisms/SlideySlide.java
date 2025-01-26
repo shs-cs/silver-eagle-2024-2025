@@ -44,10 +44,8 @@ public class SlideySlide {
                 ViperMotor.setPower(0);
                 return false;
             } else {
-                if (!ViperMotor.isBusy()) {
                     ViperMotor.setTargetPosition(highBasketPos);
                     ViperMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                }
                 return true;
             }
         }

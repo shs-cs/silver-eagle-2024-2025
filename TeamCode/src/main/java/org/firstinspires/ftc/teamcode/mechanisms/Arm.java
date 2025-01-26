@@ -22,7 +22,7 @@ public class Arm {
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     private static final int highBarPosition = -2900;
-    private static final int highBasketPosition = -4231;
+    private static final int highBasketPosition = -4400;
 
     public class ArmUp implements Action {
         private boolean initialized = false;
@@ -86,8 +86,9 @@ public class Arm {
                 initialized = true;
             }
 
-            if (arm.getCurrentPosition() <= highBasketPosition) {
+            if (arm.getCurrentPosition() <= highBasketPosition+250) {
                 arm.setPower(0);
+
                 return false;
             } else {
                 arm.setTargetPosition(highBasketPosition);

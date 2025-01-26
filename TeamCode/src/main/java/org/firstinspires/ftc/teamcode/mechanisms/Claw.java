@@ -51,8 +51,8 @@ public class Claw {
         @Override
         public boolean run(@NonNull TelemetryPacket packet)
         {
-                LeftGripperServo.setPosition(ClawOpenNormalPos);
-                RightGripperServo.setPosition(ClawOpenNormalPos);
+                LeftGripperServo.setPosition(ClawOpenWidePos);
+                RightGripperServo.setPosition(ClawOpenWidePos);
                 return false; // call run again
         }
 
